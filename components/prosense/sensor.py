@@ -109,7 +109,7 @@ async def to_code(config):
     await cg.register_component(var, config)
     await uart.register_uart_device(var, config)
 
-    # cg.add(var.set_type(config[CONF_TYPE]))
+    cg.add(var.set_type(config[CONF_TYPE]))
 
     if CONF_CARBON_MONOXIDE in config:
         sens = await sensor.new_sensor(config[CONF_CARBON_MONOXIDE])
