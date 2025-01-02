@@ -197,6 +197,17 @@ uint16_t ProsenseComponent::get_16_bit_uint_(uint8_t start_index) {
 
 void ProsenseComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "Prosense:");
+  switch (this->type_) {
+    case PROSENSE_TYPE_DSRF:
+      ESP_LOGCONFIG(TAG, "  Type: DS-RF");
+      break;
+    case PROSENSE_TYPE_CO100:
+      ESP_LOGCONFIG(TAG, "  Type: CO-100");
+      break;
+    default:
+      ESP_LOGCONFIG(TAG, "  Type: Unknown");
+      break;
+  }
   LOG_SENSOR("  ", "CO", this->co_sensor_);
   LOG_SENSOR("  ", "Temperature", this->temperature_sensor_);
   LOG_SENSOR("  ", "Humidity", this->humidity_sensor_);

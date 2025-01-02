@@ -45,6 +45,14 @@ SENSORS_TO_TYPE = {
     CONF_FORMALDEHYDE: [TYPE_DSRF],
 }
 
+
+def validate_prosense_sensors(value):
+    for key, types in SENSORS_TO_TYPE.items():
+        if key in value and value[CONF_TYPE] not in types:
+            raise cv.Invalid(f"{value[CONF_TYPE]} does not have {key} sensor!")
+    return value
+
+
 CONFIG_SCHEMA = (
     cv.Schema(
         {
@@ -86,6 +94,15 @@ CONFIG_SCHEMA = (
     .extend(uart.UART_DEVICE_SCHEMA)
 )
 
+
+def final_validate(config):
+    schema = uart.final_validate_device_schema(
+        "prosense", baud_rate=9600, require_rx=True, require_tx=True
+    )
+    schema(config)
+
+
+FINAL_VALIDATE_SCHEMA = final_validate
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
